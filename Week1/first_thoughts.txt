@@ -1,0 +1,29 @@
+Task 3
+------
+Sorting [1..100000] was taking an incredibly long time, it was printing out the numbers at a rate of only a few per second. This is because the time complexity is already very high for 100,000 items.
+The function could not sort the reverse of [1..100000]. The function produced no output in the interpreter.
+For larger lists of course the function could not sort them in a reasonable amount of time, the rate at which each number was outputted was even slower than for 100,000.
+However, for smaller lists the function was able to complete the sort. For [1..10000] the sort took 21.6 seconds and approximately 9.3 GB of memory.
+
+Task 4
+------
+For the given list the sort took only 0.47 seconds and 196 MB of memory
+I also sorted [1..10000] ++ reverse [1..10000] which took considerably longer at 44.17 seconds and reportedly used 18.5 GB of memory.
+
+Task 5
+------
+I made use of the Data.List function delete which deletes an element from a list in my permutations function. The function is as follows:
+    perm [] = [[]]
+    perm xs = [x:ys | x <- xs, ys <- perm (delete x xs)]
+
+The time taken for let n = 10 in map f (permutations [1..n]) was 294 seconds and used 121 GB of memory.
+This gives us:
+    c * 10! * 10 * log 10 = 294
+    So, c = 294 / (10! * 10 * log 10)
+    Thus, c = 2.44E-6 to 2 decimal places for 10 elements.
+
+For 8 elements we get 2.49 seconds so:
+    c = 2.49 / (8! * 8 * log 8)
+    c = 2.57E-6
+
+So we can see that the constant does not remain the same exactly but it is very similar.

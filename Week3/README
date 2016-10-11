@@ -1,0 +1,28 @@
+Morse code
+----------
+
+Unassessed Learning Exercise Week 3
+Steven Cheung & Martin Escardo
+
+* The exercise is explained in the pdf file.
+
+* Sample inputs with corresponding expected outputs are in
+  TestCases.hs
+
+  They are generated using our sample solution, which you will get
+  after you submit.
+
+  There won't be any test bench. Please test your program with the
+  above, and also with your own tests.
+
+* MorseLib.hs must be imported into your solution, which must be named
+  morse.hs.
+
+* Lectures that contain relevant material for this exercise are Data
+  Types, prefixfreebittree (.hs and videos) and bittree.hs) and
+  dicttree-handout.hs
+
+In this exercise, although collaboration is not forbidden, you are
+encouraged to work on your own as much as possible, to prepare
+yourself well for the assessed exercise in Week 4, in which
+collaboration is certainly not allowed.
