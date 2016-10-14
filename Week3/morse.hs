@@ -99,3 +99,10 @@ decode ms = decode' (extractWords ms)
 testDecode :: [[MorseUnit]] -> [String] -> [Bool]
 testDecode [] [] = []
 testDecode (i:is) (o:os) = (decode i == o) : testDecode is os
+
+{-
+    ==========
+    QUESTION 3
+    ==========
+-}
+toTree :: MorseTable -> MorseTree
