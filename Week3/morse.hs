@@ -105,4 +105,60 @@ testDecode (i:is) (o:os) = (decode i == o) : testDecode is os
     QUESTION 3
     ==========
 -}
+
+-- Tests if a given sequence of morse correpsonds to a character
+isChar :: [MorseUnit] -> MorseTable -> Bool
+isChar _ [] = False
+isChar ms (t:ts) = if ms == fst t then True else isChar ms ts
+
+toTree' :: MorseTable -> [MorseUnit] -> MorseTree
+toTree' [] path = if isChar path table then Leaf (retrieve path table) else Nil
+toTree' [m] path = if isChar path table then Leaf (snd m) else Branch0 left right
+                   where left = toTree' [(drop 2 (fst l), snd l) | l <- [m], take 2 (fst l) == dit] (path ++ dit)
+                         right = toTree' [(drop 4 (fst r), snd r) | r <- [m], take 4 (fst r) == dah] (path ++ dah)
+toTree' ms path = if isChar path table then
+                      Branch1 (retrieve path table) left right
+                  else
+                      Branch0 left right
+                  where left = toTree' [(drop 2 (fst l), snd l) | l <- ms, take 2 (fst l) == dit] (path ++ dit)
+                        right = toTree' [(drop 4 (fst r), snd r) | r <- ms, take 4 (fst r) == dah] (path ++ dah)
+
+-- list comp dit left dah right
 toTree :: MorseTable -> MorseTree
+toTree ms = toTree' ms []
+
+testToTree :: [MorseTable] -> [MorseTree] -> [Bool]
+testToTree [] [] = []
+testToTree (i:is) (o:os) = (toTree i == o) : testToTree is os
+
+testTable :: MorseTable
+testTable = [(dah, 'J'), ([], 'W'), (dah ++ dah, '1')]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
