@@ -47,23 +47,27 @@ decodeAux ot (Branch l r _) (I:bs) = decodeAux ot r bs
 
 -}
 
--- TODO commenting
+-- 
 decompress :: String -> String
 decompress s = decode (read t, stringToBits bs) where (t, bs) = sepTree s
 
+-- Convert a string to a list of bits
 stringToBits :: String -> [Bit]
 stringToBits [] = []
 stringToBits bs = [charToBit b | b <- bs]
 
+-- Convert a single digit character to its bit representation
 charToBit :: Char -> Bit
 charToBit '0' = Z
 charToBit '1' = I
 
 sepTree :: String -> (String, String)
-sepTree cs = (take n s, drop n s) where (n, s) = sepN cs
+sepTree cs = (take n s, drop n s)
+    where (n, s) = sepN cs
 
 sepN :: String -> (Int, String)
-sepN cs = (read n, s) where (n, s) = span isDigit cs
+sepN cs = (read n, s)
+    where (n, s) = span isDigit cs
 
 {--- Decompression for a smarter compression algorithm: For a short
 string or a random string, the Huffman code of the string is longer
