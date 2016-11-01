@@ -157,19 +157,25 @@ makeTableAux (Branch t1 t2 _) path = (makeTableAux t1 (Z:path)) ++ (makeTableAux
 -- Takes a string of symbols to a bit string, based on a given coding table
 encodeUsingTable :: Eq c => CodingTable c -> [c] -> [Bit]
 encodeUsingTable ct [] = []
-encodeUsingTable ct (c:cs) = getBits c ct ++ encodeUsingTable ct cs
+encodeUsingTable ct cs = concat [getBits c ct | c <- cs]
 
 getBits c table = bs where Just bs = lookup c table
 
 -- Question:
 -- Encodes directly from the tree (more efficient).
 encodeUsing :: Eq c => Tree c -> [c] -> [Bit]
-encodeUsing = undefined
+encodeUsing t cs = concat [trav t c [] | c <- cs]
+
+trav :: Eq c => Tree c -> c -> [Bit] -> [Bit]
+trav (Leaf lc _) c path      = if c == lc then reverse path else []
+trav (Branch t1 t2 _) c path = trav t1 c (Z:path) ++ trav t2 c (I:path)
 
 -- Question:
 -- From a string of symbols, generate the coding tree and the encoding
 encode :: Eq c => [c] -> (Tree c, [Bit])
-encode = undefined
+encode cs = (tree, bs)
+            where tree = generateTree $ tabulate cs
+                  bs   = encodeUsing tree cs
 
 -- Encoding trees
 
@@ -184,10 +190,14 @@ encode = undefined
 --    * t is read from a tree, and contains exactly n characters.
 --    * c is string of bits.
 compress :: String -> String
-compress = undefined
+compress s = concat [show $ length $ show tree, show tree, show bits]
+             where tree     = fst encoding
+                   bits     = snd encoding
+                   encoding = encode s
 
 -- Question:
 -- Smarter compression: if the encoded string is larger than the input string,
 -- instead output the input string with a '*' in front.
 compress' :: String -> String
-compress' = undefined
+compress' s = if memSize s < memSize compressed then '*':s else compressed
+              where compressed = compress s
